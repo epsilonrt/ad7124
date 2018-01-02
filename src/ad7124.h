@@ -134,11 +134,12 @@ class Ad7124Chip {
     int reset();
 
     int status();
-    int currentChannel();
     int setAdcControl (Ad7124::OperatingMode mode, Ad7124::PowerMode power_mode, bool ref_en = true, Ad7124::ClkSel clk_sel = Ad7124::InternalClk);
-
+    int setMode (Ad7124::OperatingMode mode);
+    
     int setChannel (uint8_t ch, uint8_t cfg, Ad7124::InputSel ainp, Ad7124::InputSel ainm, bool enable = false);
     int enableChannel (uint8_t ch, bool enable = true);
+    int channelConfig (uint8_t ch);
 
     int setConfig (uint8_t cfg, Ad7124::RefSel ref, Ad7124::PgaSel pga, bool bipolar, Ad7124::BurnoutCurrent burnout = Ad7124::BurnoutOff);
     int setConfigFilter (uint8_t cfg, Ad7124::FilterType filter, Ad7124::PostFilterType postfilter, uint16_t fs, bool rej60, bool single);
@@ -146,6 +147,13 @@ class Ad7124Chip {
     int setConfigGain (uint8_t cfg, uint32_t value);
 
     long read (uint8_t ch);
+    int startSingleConversion (uint8_t ch);
+    int waitEndOfConversion (uint32_t timeout_ms);
+    long getData();
+    int currentChannel();
+    int internalCalibration (uint8_t ch);
+
+    static double toVoltage (long value, int gain, double vref, bool bipolar = true);
 
     /**
      * @brief return IO timeout in milliseconds (default is 1000ms)

@@ -8,6 +8,7 @@
   <Project Name="test_ad7124" Path="extras/avrio/test/ad7124/test_ad7124.project" Active="Yes"/>
   <Project Name="test_led" Path="extras/avrio/test/led/test_led.project" Active="No"/>
   <Project Name="test_spi" Path="extras/avrio/test/spi/test_spi.project" Active="No"/>
+  <Project Name="test_tc" Path="extras/avrio/test/tc/test_tc.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
@@ -16,6 +17,7 @@
       <Project Name="test_ad7124" ConfigName="Debug"/>
       <Project Name="test_led" ConfigName="Debug"/>
       <Project Name="test_spi" ConfigName="Debug"/>
+      <Project Name="test_tc" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -24,6 +26,7 @@
       <Project Name="test_ad7124" ConfigName="Release"/>
       <Project Name="test_led" ConfigName="Release"/>
       <Project Name="test_spi" ConfigName="Release"/>
+      <Project Name="test_tc" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

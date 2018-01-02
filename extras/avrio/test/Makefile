@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #----------------------------------------------------------------------------
-SUBDIRS  = led spi ad7124
+SUBDIRS  = led spi tc ad7124
 CLEANER_SUBDIRS = 
 
 all: $(SUBDIRS)

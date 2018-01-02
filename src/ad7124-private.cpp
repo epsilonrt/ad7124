@@ -38,6 +38,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 #include "ad7124-private.h"
+#include <stdio.h>
 
 extern "C" {
 #ifdef __AVR__
@@ -45,6 +46,8 @@ extern "C" {
 #else
 #define PROGMEM
 #define memcpy_P memcpy
+#define pgm_read_word
+#define sprintf_P sprintf
 #endif
 }
 
@@ -219,7 +222,7 @@ Ad7124Private::writeRegister (Ad7124Register pReg) {
 /***************************************************************************//**
 * @brief Resets the device.
 *
-* @return Returns 0 for success or negative error code.
+* @return Returns true for success, AD7124_TIMEOUT for timeout
 *******************************************************************************/
 int
 Ad7124Private::reset (void) {
@@ -242,35 +245,39 @@ Ad7124Private::reset (void) {
 * @param timeout - Count representing the number of polls to be done until the
 *                  function returns.
 *
-* @return Returns 0 for success or negative error code.
+* @return Returns true for success, false, AD7124_TIMEOUT for timeout
 *******************************************************************************/
 int
 Ad7124Private::waitForSpiReady (uint32_t timeout) {
   int ret;
-  int8_t ready = 0;
-  uint8_t count = 10;
-  
+  bool ready = false;
+  bool timeout_en;
+
   timeout /= 10;
-  if (timeout < 1) {
-    timeout = 1;
-  }
+  timeout_en = (timeout > 0);
 
-  while (!ready && count--) {
+  do {
 
-    drv.delay(timeout);
-    
     /* Read the value of the Error Register */
     ret = readRegister (&reg[AD7124_Error]);
     if (ret < 0) {
+
       return ret;
     }
 
     /* Check the SPI IGNORE Error bit in the Error Register */
     ready = (reg[AD7124_Error].value &
              AD7124_ERR_REG_SPI_IGNORE_ERR) == 0;
-  }
 
-  return count ? 0 : AD7124_TIMEOUT;
+    if (timeout) {
+
+      drv.delay (10);
+      timeout--;
+    }
+  }
+  while (!ready && timeout);
+
+  return timeout_en && (timeout == 0) ? AD7124_TIMEOUT : ready;
 }
 
 /***************************************************************************//**
@@ -279,20 +286,18 @@ Ad7124Private::waitForSpiReady (uint32_t timeout) {
 * @param timeout - Count representing the number of polls to be done until the
 *                  function returns.
 *
-* @return Returns 0 for success or negative error code.
+* @return Returns true for success, false, AD7124_TIMEOUT for timeout
 *******************************************************************************/
 int
 Ad7124Private::waitToPowerOn (uint32_t timeout) {
   int ret;
-  int8_t powered_on = 0;
-  uint8_t count = 10;
-  
-  timeout /= 10;
-  if (timeout < 1) {
-    timeout = 1;
-  }
+  bool powered_on = false;
+  bool timeout_en;
 
-  while (!powered_on && count--) {
+  timeout /= 10;
+  timeout_en = (timeout > 0);
+
+  do {
 
     ret = readRegister (&reg[AD7124_Status]);
     if (ret < 0) {
@@ -303,9 +308,15 @@ Ad7124Private::waitToPowerOn (uint32_t timeout) {
     /* Check the POR_FLAG bit in the Status Register */
     powered_on = (reg[AD7124_Status].value &
                   AD7124_STATUS_REG_POR_FLAG) == 0;
-  }
+    if (timeout) {
 
-  return (count || powered_on) ? 0 : AD7124_TIMEOUT;
+      drv.delay (10);
+      timeout--;
+    }
+  }
+  while (!powered_on && timeout);
+
+  return timeout_en && (timeout == 0) ? AD7124_TIMEOUT : powered_on;
 }
 
 /***************************************************************************//**
@@ -314,20 +325,18 @@ Ad7124Private::waitToPowerOn (uint32_t timeout) {
 * @param timeout - Count representing the number of polls to be done until the
 *                  function returns if no new data is available.
 *
-* @return Returns 0 for success or negative error code.
+* @return Returns true for success, false if not ready, AD7124_TIMEOUT for timeout
 *******************************************************************************/
 int
 Ad7124Private::waitForConvReady (uint32_t timeout) {
   int ret;
-  int8_t ready = 0;
-  uint8_t count = 10;
-  
-  timeout /= 10;
-  if (timeout < 1) {
-    timeout = 1;
-  }
+  bool ready = false;
+  bool timeout_en;
 
-  while (!ready && count--) {
+  timeout /= 10;
+  timeout_en = (timeout > 0);
+
+  do {
 
     /* Read the value of the Status Register */
     ret = readRegister (&reg[AD7124_Status]);
@@ -339,9 +348,16 @@ Ad7124Private::waitForConvReady (uint32_t timeout) {
     /* Check the RDY bit in the Status Register */
     ready = (reg[AD7124_Status].value &
              AD7124_STATUS_REG_RDY) == 0;
-  }
 
-  return count ? 0 : AD7124_TIMEOUT;
+    if (timeout) {
+
+      drv.delay (10);
+      timeout--;
+    }
+  }
+  while (!ready && timeout);
+
+  return timeout_en && (timeout == 0) ? AD7124_TIMEOUT : ready;
 }
 
 /***************************************************************************//**
@@ -561,11 +577,85 @@ const Ad7124Register Ad7124Register::DefaultRegs[] PROGMEM = {
   {0x38, 0x500000, 3, 1}, /* AD7124_Gain_7 */
 };
 
+namespace Ad7124 {
+
+  const char RegNameStatus[] PROGMEM = "Status";
+  const char RegNameAdcControl[] PROGMEM = "AdcControl";
+  const char RegNameData[] PROGMEM = "Data";
+  const char RegNameIOCon1[] PROGMEM = "IOCon1";
+  const char RegNameIOCon2[] PROGMEM = "IOCon2";
+  const char RegNameId[] PROGMEM = "Id";
+  const char RegNameError[] PROGMEM = "Error";
+  const char RegNameErrorEn[] PROGMEM = "ErrorEn";
+  const char RegNameMclkCount[] PROGMEM = "MclkCount";
+  const char RegNameChannel[] PROGMEM = "Channel%d";
+  const char RegNameConfig[] PROGMEM = "Config%d";
+  const char RegNameFilter[] PROGMEM = "Filter%d";
+  const char RegNameOffset[] PROGMEM = "Offset%d";
+  const char RegNameGain[] PROGMEM = "Gain%d";
+  const char * const RegisterNames[] PROGMEM = {
+    RegNameStatus,
+    RegNameAdcControl,
+    RegNameData,
+    RegNameIOCon1,
+    RegNameIOCon2,
+    RegNameId,
+    RegNameError,
+    RegNameErrorEn,
+    RegNameMclkCount
+  };
+}
+
 // -----------------------------------------------------------------------------
-void 
+int
+Ad7124Register::copyRegisterName (RegisterId id, char * name) {
+
+  if ( (id >= AD7124_Channel_0) && (id <= AD7124_Channel_15)) {
+
+    return sprintf_P (name, RegNameChannel, id - AD7124_Channel_0);
+  }
+  else if ( (id >= AD7124_Config_0) && (id <= AD7124_Config_7)) {
+
+    return sprintf_P (name, RegNameConfig, id - AD7124_Config_0);
+  }
+  else if ( (id >= AD7124_Filter_0) && (id <= AD7124_Filter_7)) {
+
+    return sprintf_P (name, RegNameFilter, id - AD7124_Filter_0);
+  }
+  else if ( (id >= AD7124_Offset_0) && (id <= AD7124_Offset_7)) {
+
+    return sprintf_P (name, RegNameOffset, id - AD7124_Offset_0);
+  }
+  else if ( (id >= AD7124_Gain_0) && (id <= AD7124_Gain_7)) {
+
+    return sprintf_P (name, RegNameGain, id - AD7124_Gain_0);
+  }
+  else {
+    const char * string = (const char *) pgm_read_word (&RegisterNames[id]);
+    return sprintf_P (name, string);
+  }
+  return -1;
+}
+
+// -----------------------------------------------------------------------------
+void
 Ad7124Register::fillAllRegsWithDefault (Ad7124Register * allregs) {
-  
+
   memcpy_P (allregs, DefaultRegs, sizeof (DefaultRegs));
+}
+
+// -----------------------------------------------------------------------------
+bool
+Ad7124Register::isWritable() const {
+
+  return rw == AD7124_RW;
+}
+
+// -----------------------------------------------------------------------------
+uint8_t
+Ad7124Register::sizeOf() const {
+
+  return size;
 }
 
 /* ========================================================================== */

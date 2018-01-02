@@ -30,7 +30,10 @@ class Ad7124Register {
     int32_t value;
     uint8_t size;
     uint8_t rw;
+    bool isWritable() const;
+    uint8_t sizeOf() const;
     static void fillAllRegsWithDefault (Ad7124Register * allregs);
+    static int copyRegisterName (Ad7124::RegisterId id, char * name);
 
   private:
     static const Ad7124Register DefaultRegs[Ad7124::AD7124_REG_NO];

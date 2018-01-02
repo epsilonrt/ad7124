@@ -24,7 +24,9 @@
 
 #define TC_RXTX_PULLUP_ENABLE
 #define TC_NUMOF_PORT 1
+#ifndef AVRIO_TC_FLAVOUR
 #define AVRIO_TC_FLAVOUR TC_FLAVOUR_IRQ
+#endif
 
 #define UCSRA           UCSR0A
 #define UCSRB           UCSR0B

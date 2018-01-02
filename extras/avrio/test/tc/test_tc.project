@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="test_ad7124" InternalType="">
+<CodeLite_Project Name="test_tc" InternalType="">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
@@ -125,9 +125,9 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="test_ad7124">
+  <VirtualDirectory Name="test_tc">
     <File Name="Makefile"/>
-    <File Name="test_ad7124.cpp"/>
+    <File Name="test_tc.c"/>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>

@@ -25,16 +25,13 @@
 #                   bug reports to the GCC project.
 
 # Nom du fichier cible (sans extension).
-TARGET = test_ad7124
+TARGET = test_tc
 
 # Chemin relatif du répertoire racine du projet de l'utilisateur
 PROJECT_TOPDIR = ../..
 
 # User Project
 USER_PROJECT = AD7124_SHIELD
-
-# Ad7124 Project
-AD7124_TOPDIR = $(abspath $(PROJECT_TOPDIR)/../..)
 
 #----------------------------------------------------------------------------
 #                               ~~~~AVRIO~~~~
@@ -51,9 +48,10 @@ GIT_VERSION = OFF
 
 # Configuration de AvrIO
 # -------------------------------
-AVRIO_CONFIG  = AVRIO_TC_ENABLE
-AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_POLL
-#AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_IRQ
+AVRIO_CONFIG  = __ASSERT_USE_STDERR
+AVRIO_CONFIG += AVRIO_TC_ENABLE
+#AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_POLL
+AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_IRQ
 
 # Valide le noyau multitâche temps réel AVRX (sous forme de bibliothèque)
 AVRX = OFF
@@ -79,14 +77,14 @@ DEBUG_FORMAT = dwarf-2
 #     0 = pas d'optimisation (pour debug).
 #     s = optimisation de la taille du code (pour release).
 #     (Note: 3 n'est pas toujours le meilleur niveau. Voir la FAQ avr-libc.)
-DEBUG_OPT = 0
+DEBUG_OPT = s
 
 # Retrait des informations Debug (ON/OFF)
 # Si défini sur ON, aucune information de debug ne sera générée
 #DEBUG = ON
 
 # Affiche la ligne de compilation GCC ou non (ON/OFF)
-VIEW_GCC_LINE = ON
+#VIEW_GCC_LINE = ON
 
 # Désactive la suppression des variables et fonctions "inutiles"
 # Le linker vérifie d'une fonction ou une variable est appellée, si ce n'est pas
@@ -98,16 +96,15 @@ DISABLE_DELETE_UNUSED_SECTIONS = OFF
 # Le chemin d'accès des fichiers sources systèmes a été ajouté au chemin de
 # recherche du compilateur, il n'est donc pas nécessaire de préciser le chemin
 # d'accès complet du fichier mais seulement le nom du projet (avrio, avrx, ...)
-SRC  =  avrio/spi.c avrio/file.c avrio/tc.c  avrio/dpin.c 
+SRC  = $(TARGET).c avrio/file.c avrio/tc.c  avrio/dpin.c 
 SRC += avrio/tc_poll.c
-SRC += avrio/tc_irq.c avrio/queue.c avrio/assert.c
+SRC += avrio/tc_irq.c avrio/queue.c
 
 # Liste des fichiers source C++. (Les dépendances sont automatiquement générées.)
 # Le chemin d'accès des fichiers sources systèmes a été ajouté au chemin de
 # recherche du compilateur, il n'est donc pas nécessaire de préciser le chemin
 # d'accès complet du fichier mais seulement le nom du projet (avrio, avrx, ...)
-CPPSRC = $(TARGET).cpp src/ad7124.cpp src/ad7124-private.cpp 
-CPPSRC += driver/ad7124-driver.cpp
+CPPSRC =
 
 # Liste des fichiers source assembleur
 #   L'extenson doit toujours être .S (en majuscule). En effet, les fichiers .s
@@ -115,22 +112,22 @@ CPPSRC += driver/ad7124-driver.cpp
 #   générés par le compilateur et seront supprimés lors d'un make clean.
 #   Cela est valable aussi sous DOS/Windows (bien que le système d'exploitation
 #   ne soit pas sensible à la casse).
-ASRC = 
+ASRC  =
 
 # Place -D or -U options here for C sources
 CDEFS +=
 
 # Place -D or -U options here for ASM sources
-ADEFS +=
+ADEFS =
 
 # Place -D or -U options here for C++ sources
-CPPDEFS += 
+CPPDEFS =
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRA_INCDIRS = $(PROJECT_TOPDIR)/driver $(AD7124_TOPDIR)/src
+EXTRA_INCDIRS =
 
 #---------------- Library Options ----------------
 # List any extra directories to look for libraries here.
@@ -141,10 +138,10 @@ EXTRA_LIBDIRS =
 
 # List any extra libraries here.
 #     Each library must be seperated by a space.
-EXTRA_LIBS = 
+EXTRA_LIBS =
 
 # STANDARD, MIN or FLOAT
-PRINTF_VERSION = FLOAT
+PRINTF_VERSION = STANDARD
 
 # STANDARD, MIN or FLOAT
 SCANF_VERSION = STANDARD
@@ -153,27 +150,56 @@ SCANF_VERSION = STANDARD
 MATH_LIB_ENABLE = ON
 
 #---------------- Additional Compiler/Assembler Options ----------------
-CFLAGS   +=
-CPPFLAGS +=
+CFLAGS   += -fno-strict-aliasing
+CPPFLAGS += 
 ASFLAGS  += 
 #---------------- Additional Linker Options ----------------
 LDFLAGS  +=
 
-#---------------- Programming Options (avrdude) ----------------
+##---------------- Programming Options (avrdude) ----------------
+# Programming hardware
+# Type: avrdude -c ?
+# to get a full listing.
+#
+# STK200 programmer on parallel port
+#AVRDUDE_PROGRAMMER = stk200
+#AVRDUDE_PORT = lpt1
+
+# JTAG ICE MkII
+#AVRDUDE_PROGRAMMER  = jtag2
+#AVRDUDE_PORT = usb
+
+# AVR Dragon
+#AVRDUDE_PROGRAMMER = dragon_isp
+AVRDUDE_PROGRAMMER = dragon_jtag
+#AVRDUDE_PROGRAMMER = dragon_dw
+AVRDUDE_PORT = usb
+
+# Arduino OnBoard Programmer
+#AVRDUDE_PROGRAMMER = arduino
+#AVRDUDE_PORT = /dev/ttyACM0
+#AVRDUDE_PORT = COM4
+#AVRDUDE_BAUDRATE = 115200
+
 # ON/OFF
-AVRDUDE_WRITE_EEPROM_ENABLE = OFF
 
+#---------------- Debugging Options ----------------
 
-ifeq ($(AD7124_TOPDIR),)
-#----------------------------------------------------------------------------
-#                                ~~~~AD7124~~~~
-else
-#----------------------------------------------------------------------------
-# AD7124_TOPDIR defined
-VPATH+=:$(AD7124_TOPDIR)
-#                                ~~~~AD7124~~~~
-#----------------------------------------------------------------------------
-endif
+# Set the DEBUG_UI to either gdb, cgdb or insight.
+#DEBUG_UI = gdb
+DEBUG_UI = cgdb
+#DEBUG_UI = insight
+
+# Set the debugging back-end to either avarice, simulavr.
+DEBUG_BACKEND = avarice
+#DEBUG_BACKEND = simulavr
+
+# When using avarice settings for the JTAG
+JTAG_DEV = usb
+
+AVARICE_OPT = --dragon 
+#AVARICE_OPT = --mkII
+AVARICE_BITRATE = --jtag-bitrate 2MHz
 
 #------------------------------------------------------------------------------
 include $(AVRIO_TOPDIR)/script/common.mk

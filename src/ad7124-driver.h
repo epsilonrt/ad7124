@@ -1,8 +1,6 @@
 /**
  * Copyright © 2017 epsilonRT. All rights reserved.
  *
- * This file is part of AvrIO.
- *
  * This software is governed by the CeCILL license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
