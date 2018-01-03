@@ -36,17 +36,12 @@ using namespace Ad7124;
 #define PGA Pga128
 #endif
 
-/* structures =============================================================== */
-/* types ==================================================================== */
-/* private variables ======================================================== */
 /* public variables ========================================================= */
 Ad7124Chip adc;
 
 /* private functions ======================================================== */
 void vPrintReg (int id);
 void vPrintAllRegs (void);
-
-/* internal public functions ================================================ */
 
 /* main ===================================================================== */
 int
@@ -73,7 +68,7 @@ main (void) {
   stderr = serial_port; // le port série est la sortie d'erreur
   sei(); // valide les interruptions
 
-  ret = adc.init (10);
+  ret = adc.begin (10);
   assert (ret == 0);
 
   //printf_P (PSTR ("---- After reset ----\n"));
@@ -85,7 +80,7 @@ main (void) {
     
     ret = adc.setConfig (i, RefInternal, PGA, BIPOLAR);
     assert (ret == 0);
-    vPrintReg (AD7124_Config_0 + i);
+    vPrintReg (Config_0 + i);
 
     //ret = adc.setChannel (i, i, REFInput, AVSSInput);
     //ret = adc.setChannel (i, i, (InputSel) (i * 2 + 1), (InputSel) (i * 2));
@@ -93,25 +88,25 @@ main (void) {
     //ret = adc.setChannel (i, i, V20mVPInput, V20mVMInput);
     //ret = adc.setChannel (i, i, AVDD6PInput, AVDD6MInput);
     assert (ret == 0);
-    vPrintReg (AD7124_Channel_0 + i);
+    vPrintReg (Channel_0 + i);
   }
 
   printf_P (PSTR ("\nSetting up ADC\n"));
   ret = adc.setAdcControl (StandbyMode, FullPower, true);
   assert (ret == 0);
-  vPrintReg (AD7124_ADC_Control);
+  vPrintReg (ADC_Control);
   
   printf_P (PSTR ("\nCalibration\n"));
   for (uint8_t i = 0; i < 4; i++) {
 
-    vPrintReg (AD7124_Offset_0 + i);
-    vPrintReg (AD7124_Gain_0 + i);
+    vPrintReg (Offset_0 + i);
+    vPrintReg (Gain_0 + i);
 #if CALIBRATION_ENABLE
     printf_P (PSTR ("\nInternal calibration for channel #%d\n"), i);
     ret = adc.internalCalibration (i);
     assert (ret == 0);
-    vPrintReg (AD7124_Offset_0 + i);
-    vPrintReg (AD7124_Gain_0 + i);
+    vPrintReg (Offset_0 + i);
+    vPrintReg (Gain_0 + i);
 #endif
   }
 
@@ -162,7 +157,7 @@ vPrintReg (int id) {
 void
 vPrintAllRegs (void) {
 
-  for (int i = AD7124_Status; i < AD7124_REG_NO; i++) {
+  for (int i = Status; i < Reg_No; i++) {
 
     vPrintReg ( (RegisterId) i);
   }

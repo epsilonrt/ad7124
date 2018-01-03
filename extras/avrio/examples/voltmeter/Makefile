@@ -25,7 +25,7 @@
 #                   bug reports to the GCC project.
 
 # Nom du fichier cible (sans extension).
-TARGET = test_ad7124
+TARGET = voltmeter
 
 # Chemin relatif du répertoire racine du projet de l'utilisateur
 PROJECT_TOPDIR = ../..
@@ -52,8 +52,8 @@ GIT_VERSION = OFF
 # Configuration de AvrIO
 # -------------------------------
 AVRIO_CONFIG  = AVRIO_TC_ENABLE
-AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_POLL
-#AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_IRQ
+#AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_POLL
+AVRIO_CONFIG += AVRIO_TC_FLAVOUR=TC_FLAVOUR_IRQ
 
 # Valide le noyau multitâche temps réel AVRX (sous forme de bibliothèque)
 AVRX = OFF

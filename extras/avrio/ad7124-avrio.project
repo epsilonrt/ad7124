@@ -125,8 +125,6 @@
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
   <VirtualDirectory Name="avrio">
     <File Name="Makefile"/>
     <File Name="board.mk"/>
@@ -145,4 +143,6 @@
     <File Name="driver/ad7124-driver.cpp"/>
     <File Name="driver/ad7124-driver.h"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

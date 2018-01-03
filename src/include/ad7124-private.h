@@ -1,7 +1,5 @@
 /**
- * Copyright © 2017 epsilonRT. All rights reserved.
- *
- * This file is part of AvrIO.
+ * Copyright © 2017-2018 epsilonRT. All rights reserved.
  *
  * This software is governed by the CeCILL license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
@@ -36,7 +34,7 @@ class Ad7124Register {
     static int copyRegisterName (Ad7124::RegisterId id, char * name);
 
   private:
-    static const Ad7124Register DefaultRegs[Ad7124::AD7124_REG_NO];
+    static const Ad7124Register DefaultRegs[Ad7124::Reg_No];
 };
 
 /**

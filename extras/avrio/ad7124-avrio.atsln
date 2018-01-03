@@ -11,6 +11,8 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "test_spi", "test\spi\test_s
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "test_tc", "test\tc\test_tc.cproj", "{A5C582D4-9499-4AB2-924F-F9EC92EA7668}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "voltmeter", "examples\voltmeter\voltmeter.cproj", "{DDAA88FA-FD08-4FB3-B830-00ACC83364C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		default|AVR = default|AVR
@@ -24,6 +26,8 @@ Global
 		{ADE7D23D-E913-4AB4-B00A-8012A4001507}.default|AVR.Build.0 = default|AVR
 		{A5C582D4-9499-4AB2-924F-F9EC92EA7668}.default|AVR.ActiveCfg = default|AVR
 		{A5C582D4-9499-4AB2-924F-F9EC92EA7668}.default|AVR.Build.0 = default|AVR
+		{DDAA88FA-FD08-4FB3-B830-00ACC83364C5}.default|AVR.ActiveCfg = default|AVR
+		{DDAA88FA-FD08-4FB3-B830-00ACC83364C5}.default|AVR.Build.0 = default|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

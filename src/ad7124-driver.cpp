@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 epsilonRT. All rights reserved.
+ * Copyright © 2017-2018 epsilonRT. All rights reserved.
  *
  * This software is governed by the CeCILL license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
@@ -14,48 +14,63 @@
  * @brief
  */
 /* ========================================================================== */
-#include "ad7124-driver.h"
+#include "include/ad7124-driver.h"
 #include <Arduino.h>
-#include <Spi.h>
-
-using namespace Ad7124;
+#include <SPI.h>
 
 /* private functions ======================================================== */
-
 // -----------------------------------------------------------------------------
-inline void
-vSetSs (int ss_pin) {
+static inline void
+setSS (int ss_pin) {
 
   digitalWrite (ss_pin, LOW); /* SS = 0 -> validé */
 }
 
 // -----------------------------------------------------------------------------
-inline void
-vClearSs (int ss_pin) {
+static inline void
+clearSS (int ss_pin) {
 
   digitalWrite (ss_pin, HIGH); /* SS = 1 -> invalidé */
+}
+
+// ---------------------------------------------------------------------------
+static inline void
+initSS (int ss_pin) {
+
+  pinMode (ss_pin, OUTPUT);
+  clearSS (ss_pin);
 }
 
 /* internal public functions ================================================ */
 // -----------------------------------------------------------------------------
 bool
 Ad7124Driver::init (uint8_t slaveDeviceId, bool lsbFirst,
-                       uint32_t clockFreq, uint8_t clockPol, uint8_t clockEdg) {
+                    uint32_t clockFreq, uint8_t clockPol, uint8_t clockEdg) {
+
+  id = slaveDeviceId;
+  initSS (id);
 
   speedMaximum = clockFreq;
   dataOrder = lsbFirst ? LSBFIRST : MSBFIRST;
+
+  if ( (clockPol == 0) && (clockEdg == 1)) {
+
+    dataMode = SPI_MODE0;
+  }
+  else if ( (clockPol == 0) && (clockEdg == 0)) {
+
+    dataMode = SPI_MODE1;
+  }
+  else if ( (clockPol == 1) && (clockEdg == 1)) {
+
+    dataMode = SPI_MODE2;
+  }
+  else if ( (clockPol == 1) && (clockEdg == 0)) {
+
+    dataMode = SPI_MODE3;
+  }
   
-  if (clockPol != 0) {
-
-    dataMode |= SPI_CPOL;
-  }
-
-  if (clockEdg == 0) {
-
-    dataMode |= SPI_CPHA;
-  }
-
-  id = slaveDeviceId;
+  SPI.begin();
   return true;
 }
 
@@ -64,11 +79,11 @@ int
 Ad7124Driver::read (uint8_t* data, uint8_t len) {
 
   SPI.beginTransaction (SPISettings (speedMaximum, dataOrder, dataMode));
-  vSetSs (id);
+  setSS(id);
   for (uint8_t i = 0; i < len; i++) {
     data[i] = SPI.transfer (data[i]);
   }
-  vClearSs (id);
+  clearSS(id);
   SPI.endTransaction();
   return len;
 }
@@ -78,20 +93,20 @@ int
 Ad7124Driver::write (const uint8_t * data, uint8_t len) {
 
   SPI.beginTransaction (SPISettings (speedMaximum, dataOrder, dataMode));
-  vSetSs (id);
+  setSS(id);
   for (uint8_t i = 0; i < len; i++) {
     SPI.transfer (data[i]);
   }
-  vClearSs (id);
+  clearSS(id);
   SPI.endTransaction();
   return len;
 }
 
 // -----------------------------------------------------------------------------
-int 
+int
 Ad7124Driver::delay (unsigned long ms) {
-  
-  delay (ms);
+
+  ::delay (ms);
   return 0;
 }
 

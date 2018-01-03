@@ -3,30 +3,33 @@
   <Environment>
     <![CDATA[]]>
   </Environment>
-  <Project Name="ad7124" Path="ad7124.project" Active="No"/>
   <Project Name="ad7124-avrio" Path="extras/avrio/ad7124-avrio.project" Active="No"/>
-  <Project Name="test_ad7124" Path="extras/avrio/test/ad7124/test_ad7124.project" Active="Yes"/>
+  <Project Name="test_ad7124" Path="extras/avrio/test/ad7124/test_ad7124.project" Active="No"/>
   <Project Name="test_led" Path="extras/avrio/test/led/test_led.project" Active="No"/>
   <Project Name="test_spi" Path="extras/avrio/test/spi/test_spi.project" Active="No"/>
   <Project Name="test_tc" Path="extras/avrio/test/tc/test_tc.project" Active="No"/>
+  <Project Name="voltmeter" Path="extras/avrio/examples/voltmeter/voltmeter.project" Active="Yes"/>
+  <Project Name="ad7124" Path="ad7124.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
-      <Project Name="ad7124" ConfigName="Debug"/>
       <Project Name="ad7124-avrio" ConfigName="Debug"/>
       <Project Name="test_ad7124" ConfigName="Debug"/>
       <Project Name="test_led" ConfigName="Debug"/>
       <Project Name="test_spi" ConfigName="Debug"/>
       <Project Name="test_tc" ConfigName="Debug"/>
+      <Project Name="voltmeter" ConfigName="Debug"/>
+      <Project Name="ad7124" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
-      <Project Name="ad7124" ConfigName="Release"/>
       <Project Name="ad7124-avrio" ConfigName="Release"/>
       <Project Name="test_ad7124" ConfigName="Release"/>
       <Project Name="test_led" ConfigName="Release"/>
       <Project Name="test_spi" ConfigName="Release"/>
       <Project Name="test_tc" ConfigName="Release"/>
+      <Project Name="voltmeter" ConfigName="Release"/>
+      <Project Name="ad7124" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

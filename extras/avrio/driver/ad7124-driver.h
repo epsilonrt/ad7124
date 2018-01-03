@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 epsilonRT. All rights reserved.
+ * Copyright © 2017-2018 epsilonRT. All rights reserved.
  *
  * This software is governed by the CeCILL license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
@@ -16,7 +16,7 @@
 #ifndef __AD7124_DRIVER_AVRIO_H__
 #define __AD7124_DRIVER_AVRIO_H__
 /* ========================================================================== */
-#include "ad7124-defs.h"
+#include "include/ad7124-defs.h"
 
 /**
  * @class Ad7124Driver

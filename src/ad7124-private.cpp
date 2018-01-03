@@ -37,7 +37,7 @@
 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
-#include "ad7124-private.h"
+#include "include/ad7124-private.h"
 #include <stdio.h>
 
 extern "C" {
@@ -253,25 +253,24 @@ Ad7124Private::waitForSpiReady (uint32_t timeout) {
   bool ready = false;
   bool timeout_en;
 
-  timeout /= 10;
   timeout_en = (timeout > 0);
 
   do {
 
     /* Read the value of the Error Register */
-    ret = readRegister (&reg[AD7124_Error]);
+    ret = readRegister (&reg[Error]);
     if (ret < 0) {
 
       return ret;
     }
 
     /* Check the SPI IGNORE Error bit in the Error Register */
-    ready = (reg[AD7124_Error].value &
+    ready = (reg[Error].value &
              AD7124_ERR_REG_SPI_IGNORE_ERR) == 0;
 
     if (timeout) {
 
-      drv.delay (10);
+      drv.delay (1);
       timeout--;
     }
   }
@@ -299,14 +298,14 @@ Ad7124Private::waitToPowerOn (uint32_t timeout) {
 
   do {
 
-    ret = readRegister (&reg[AD7124_Status]);
+    ret = readRegister (&reg[Status]);
     if (ret < 0) {
 
       return ret;
     }
 
     /* Check the POR_FLAG bit in the Status Register */
-    powered_on = (reg[AD7124_Status].value &
+    powered_on = (reg[Status].value &
                   AD7124_STATUS_REG_POR_FLAG) == 0;
     if (timeout) {
 
@@ -333,25 +332,24 @@ Ad7124Private::waitForConvReady (uint32_t timeout) {
   bool ready = false;
   bool timeout_en;
 
-  timeout /= 10;
   timeout_en = (timeout > 0);
 
   do {
 
     /* Read the value of the Status Register */
-    ret = readRegister (&reg[AD7124_Status]);
+    ret = readRegister (&reg[Status]);
     if (ret < 0) {
 
       return ret;
     }
 
     /* Check the RDY bit in the Status Register */
-    ready = (reg[AD7124_Status].value &
+    ready = (reg[Status].value &
              AD7124_STATUS_REG_RDY) == 0;
 
     if (timeout) {
 
-      drv.delay (10);
+      drv.delay (1);
       timeout--;
     }
   }
@@ -372,10 +370,10 @@ Ad7124Private::readData (int32_t* pData) {
   int ret;
 
   /* Read the value of the Data Register */
-  ret = readRegister (&reg[AD7124_Data]);
+  ret = readRegister (&reg[Data]);
 
   /* Get the read result */
-  *pData = reg[AD7124_Data].value;
+  *pData = reg[Data].value;
 
   return ret;
 }
@@ -387,7 +385,7 @@ void
 Ad7124Private::updateCRCSetting (void) {
 
   /* Get CRC State. */
-  if (reg[AD7124_Error_En].value & AD7124_ERREN_REG_SPI_CRC_ERR_EN) {
+  if (reg[Error_En].value & AD7124_ERREN_REG_SPI_CRC_ERR_EN) {
 
     useCRC = AD7124_USE_CRC;
   }
@@ -403,7 +401,7 @@ Ad7124Private::updateCRCSetting (void) {
 void
 Ad7124Private::updateDevSpiSettings (void) {
 
-  if (reg[AD7124_Error_En].value & AD7124_ERREN_REG_SPI_IGNORE_ERR_EN) {
+  if (reg[Error_En].value & AD7124_ERREN_REG_SPI_IGNORE_ERR_EN) {
 
     isReady = true;
   }
@@ -444,7 +442,7 @@ Ad7124Private::init (int slave_select, Ad7124Register * regs) {
   isReady = true;
 
   /* Initialize registers AD7124_ADC_Control through AD7124_Filter_7. */
-  for (int i = AD7124_Status; (i < AD7124_Offset_0) && ! (ret < 0); i++) {
+  for (int i = Status; (i < Offset_0) && ! (ret < 0); i++) {
 
     if (reg[i].rw == AD7124_RW) {
 
@@ -456,7 +454,7 @@ Ad7124Private::init (int slave_select, Ad7124Register * regs) {
     }
 
     /* Get CRC State and device SPI interface settings */
-    if (i == AD7124_Error_En) {
+    if (i == Error_En) {
 
       updateCRCSetting ();
       updateDevSpiSettings ();
@@ -518,63 +516,63 @@ Ad7124Private::computeCRC8 (uint8_t * pBuf, uint8_t bufSize) {
 
 // -----------------------------------------------------------------------------
 const Ad7124Register Ad7124Register::DefaultRegs[] PROGMEM = {
-  {0x00, 0x00,   1, 2}, /* AD7124_Status */
-  {0x01, 0x0000, 2, 1}, /* AD7124_ADC_Control */
-  {0x02, 0x0000, 3, 2}, /* AD7124_Data */
-  {0x03, 0x0000, 3, 1}, /* AD7124_IOCon1 */
-  {0x04, 0x0000, 2, 1}, /* AD7124_IOCon2 */
-  {0x05, 0x02,   1, 2}, /* AD7124_ID */
-  {0x06, 0x0000, 3, 2}, /* AD7124_Error */
-  {0x07, 0x0044, 3, 1}, /* AD7124_Error_En */
-  {0x08, 0x00,   1, 2}, /* AD7124_Mclk_Count */
-  {0x09, 0x8001, 2, 1}, /* AD7124_Channel_0 */
-  {0x0A, 0x0001, 2, 1}, /* AD7124_Channel_1 */
-  {0x0B, 0x0001, 2, 1}, /* AD7124_Channel_2 */
-  {0x0C, 0x0001, 2, 1}, /* AD7124_Channel_3 */
-  {0x0D, 0x0001, 2, 1}, /* AD7124_Channel_4 */
-  {0x0E, 0x0001, 2, 1}, /* AD7124_Channel_5 */
-  {0x0F, 0x0001, 2, 1}, /* AD7124_Channel_6 */
-  {0x10, 0x0001, 2, 1}, /* AD7124_Channel_7 */
-  {0x11, 0x0001, 2, 1}, /* AD7124_Channel_8 */
-  {0x12, 0x0001, 2, 1}, /* AD7124_Channel_9 */
-  {0x13, 0x0001, 2, 1}, /* AD7124_Channel_10 */
-  {0x14, 0x0001, 2, 1}, /* AD7124_Channel_11 */
-  {0x15, 0x0001, 2, 1}, /* AD7124_Channel_12 */
-  {0x16, 0x0001, 2, 1}, /* AD7124_Channel_13 */
-  {0x17, 0x0001, 2, 1}, /* AD7124_Channel_14 */
-  {0x18, 0x0001, 2, 1}, /* AD7124_Channel_15 */
-  {0x19, 0x0860, 2, 1}, /* AD7124_Config_0 */
-  {0x1A, 0x0860, 2, 1}, /* AD7124_Config_1 */
-  {0x1B, 0x0860, 2, 1}, /* AD7124_Config_2 */
-  {0x1C, 0x0860, 2, 1}, /* AD7124_Config_3 */
-  {0x1D, 0x0860, 2, 1}, /* AD7124_Config_4 */
-  {0x1E, 0x0860, 2, 1}, /* AD7124_Config_5 */
-  {0x1F, 0x0860, 2, 1}, /* AD7124_Config_6 */
-  {0x20, 0x0860, 2, 1}, /* AD7124_Config_7 */
-  {0x21, 0x060180, 3, 1}, /* AD7124_Filter_0 */
-  {0x22, 0x060180, 3, 1}, /* AD7124_Filter_1 */
-  {0x23, 0x060180, 3, 1}, /* AD7124_Filter_2 */
-  {0x24, 0x060180, 3, 1}, /* AD7124_Filter_3 */
-  {0x25, 0x060180, 3, 1}, /* AD7124_Filter_4 */
-  {0x26, 0x060180, 3, 1}, /* AD7124_Filter_5 */
-  {0x27, 0x060180, 3, 1}, /* AD7124_Filter_6 */
-  {0x28, 0x060180, 3, 1}, /* AD7124_Filter_7 */
-  {0x29, 0x800000, 3, 1}, /* AD7124_Offset_0 */
-  {0x2A, 0x800000, 3, 1}, /* AD7124_Offset_1 */
-  {0x2B, 0x800000, 3, 1}, /* AD7124_Offset_2 */
-  {0x2C, 0x800000, 3, 1}, /* AD7124_Offset_3 */
-  {0x2D, 0x800000, 3, 1}, /* AD7124_Offset_4 */
-  {0x2E, 0x800000, 3, 1}, /* AD7124_Offset_5 */
-  {0x2F, 0x800000, 3, 1}, /* AD7124_Offset_6 */
-  {0x30, 0x800000, 3, 1}, /* AD7124_Offset_7 */
-  {0x31, 0x500000, 3, 1}, /* AD7124_Gain_0 */
-  {0x32, 0x500000, 3, 1}, /* AD7124_Gain_1 */
-  {0x33, 0x500000, 3, 1}, /* AD7124_Gain_2 */
-  {0x34, 0x500000, 3, 1}, /* AD7124_Gain_3 */
-  {0x35, 0x500000, 3, 1}, /* AD7124_Gain_4 */
-  {0x36, 0x500000, 3, 1}, /* AD7124_Gain_5 */
-  {0x37, 0x500000, 3, 1}, /* AD7124_Gain_6 */
-  {0x38, 0x500000, 3, 1}, /* AD7124_Gain_7 */
+  {0x00, 0x00,   1, 2}, /* Status */
+  {0x01, 0x0000, 2, 1}, /* ADC_Control */
+  {0x02, 0x0000, 3, 2}, /* Data */
+  {0x03, 0x0000, 3, 1}, /* IOCon1 */
+  {0x04, 0x0000, 2, 1}, /* IOCon2 */
+  {0x05, 0x02,   1, 2}, /* ID */
+  {0x06, 0x0000, 3, 2}, /* Error */
+  {0x07, 0x0044, 3, 1}, /* Error_En */
+  {0x08, 0x00,   1, 2}, /* Mclk_Count */
+  {0x09, 0x8001, 2, 1}, /* Channel_0 */
+  {0x0A, 0x0001, 2, 1}, /* Channel_1 */
+  {0x0B, 0x0001, 2, 1}, /* Channel_2 */
+  {0x0C, 0x0001, 2, 1}, /* Channel_3 */
+  {0x0D, 0x0001, 2, 1}, /* Channel_4 */
+  {0x0E, 0x0001, 2, 1}, /* Channel_5 */
+  {0x0F, 0x0001, 2, 1}, /* Channel_6 */
+  {0x10, 0x0001, 2, 1}, /* Channel_7 */
+  {0x11, 0x0001, 2, 1}, /* Channel_8 */
+  {0x12, 0x0001, 2, 1}, /* Channel_9 */
+  {0x13, 0x0001, 2, 1}, /* Channel_10 */
+  {0x14, 0x0001, 2, 1}, /* Channel_11 */
+  {0x15, 0x0001, 2, 1}, /* Channel_12 */
+  {0x16, 0x0001, 2, 1}, /* Channel_13 */
+  {0x17, 0x0001, 2, 1}, /* Channel_14 */
+  {0x18, 0x0001, 2, 1}, /* Channel_15 */
+  {0x19, 0x0860, 2, 1}, /* Config_0 */
+  {0x1A, 0x0860, 2, 1}, /* Config_1 */
+  {0x1B, 0x0860, 2, 1}, /* Config_2 */
+  {0x1C, 0x0860, 2, 1}, /* Config_3 */
+  {0x1D, 0x0860, 2, 1}, /* Config_4 */
+  {0x1E, 0x0860, 2, 1}, /* Config_5 */
+  {0x1F, 0x0860, 2, 1}, /* Config_6 */
+  {0x20, 0x0860, 2, 1}, /* Config_7 */
+  {0x21, 0x060180, 3, 1}, /* Filter_0 */
+  {0x22, 0x060180, 3, 1}, /* Filter_1 */
+  {0x23, 0x060180, 3, 1}, /* Filter_2 */
+  {0x24, 0x060180, 3, 1}, /* Filter_3 */
+  {0x25, 0x060180, 3, 1}, /* Filter_4 */
+  {0x26, 0x060180, 3, 1}, /* Filter_5 */
+  {0x27, 0x060180, 3, 1}, /* Filter_6 */
+  {0x28, 0x060180, 3, 1}, /* Filter_7 */
+  {0x29, 0x800000, 3, 1}, /* Offset_0 */
+  {0x2A, 0x800000, 3, 1}, /* Offset_1 */
+  {0x2B, 0x800000, 3, 1}, /* Offset_2 */
+  {0x2C, 0x800000, 3, 1}, /* Offset_3 */
+  {0x2D, 0x800000, 3, 1}, /* Offset_4 */
+  {0x2E, 0x800000, 3, 1}, /* Offset_5 */
+  {0x2F, 0x800000, 3, 1}, /* Offset_6 */
+  {0x30, 0x800000, 3, 1}, /* Offset_7 */
+  {0x31, 0x500000, 3, 1}, /* Gain_0 */
+  {0x32, 0x500000, 3, 1}, /* Gain_1 */
+  {0x33, 0x500000, 3, 1}, /* Gain_2 */
+  {0x34, 0x500000, 3, 1}, /* Gain_3 */
+  {0x35, 0x500000, 3, 1}, /* Gain_4 */
+  {0x36, 0x500000, 3, 1}, /* Gain_5 */
+  {0x37, 0x500000, 3, 1}, /* Gain_6 */
+  {0x38, 0x500000, 3, 1}, /* Gain_7 */
 };
 
 namespace Ad7124 {
@@ -610,25 +608,25 @@ namespace Ad7124 {
 int
 Ad7124Register::copyRegisterName (RegisterId id, char * name) {
 
-  if ( (id >= AD7124_Channel_0) && (id <= AD7124_Channel_15)) {
+  if ( (id >= Channel_0) && (id <= Channel_15)) {
 
-    return sprintf_P (name, RegNameChannel, id - AD7124_Channel_0);
+    return sprintf_P (name, RegNameChannel, id - Channel_0);
   }
-  else if ( (id >= AD7124_Config_0) && (id <= AD7124_Config_7)) {
+  else if ( (id >= Config_0) && (id <= Config_7)) {
 
-    return sprintf_P (name, RegNameConfig, id - AD7124_Config_0);
+    return sprintf_P (name, RegNameConfig, id - Config_0);
   }
-  else if ( (id >= AD7124_Filter_0) && (id <= AD7124_Filter_7)) {
+  else if ( (id >= Filter_0) && (id <= Filter_7)) {
 
-    return sprintf_P (name, RegNameFilter, id - AD7124_Filter_0);
+    return sprintf_P (name, RegNameFilter, id - Filter_0);
   }
-  else if ( (id >= AD7124_Offset_0) && (id <= AD7124_Offset_7)) {
+  else if ( (id >= Offset_0) && (id <= Offset_7)) {
 
-    return sprintf_P (name, RegNameOffset, id - AD7124_Offset_0);
+    return sprintf_P (name, RegNameOffset, id - Offset_0);
   }
-  else if ( (id >= AD7124_Gain_0) && (id <= AD7124_Gain_7)) {
+  else if ( (id >= Gain_0) && (id <= Gain_7)) {
 
-    return sprintf_P (name, RegNameGain, id - AD7124_Gain_0);
+    return sprintf_P (name, RegNameGain, id - Gain_0);
   }
   else {
     const char * string = (const char *) pgm_read_word (&RegisterNames[id]);

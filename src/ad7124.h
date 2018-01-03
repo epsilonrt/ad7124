@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 epsilonRT. All rights reserved.
+ * Copyright © 2017-2018 epsilonRT. All rights reserved.
  *
  * This software is governed by the CeCILL license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
@@ -16,7 +16,7 @@
 #ifndef __AD7124_H__
 #define __AD7124_H__
 /* ========================================================================== */
-#include "ad7124-private.h"
+#include "include/ad7124-private.h"
 
 namespace Ad7124 {
   enum OperatingMode {
@@ -29,7 +29,6 @@ namespace Ad7124 {
     InternalGainCalibrationMode,
     SystemOffsetCalibrationMode,
     SystemGainCalibrationMode
-
   };
   enum PowerMode {
     LowPower = 0,
@@ -124,19 +123,18 @@ namespace Ad7124 {
 
 /**
  * @class Ad7124Chip
- * @brief AD7124 ADC
+ * @brief AD7124 device
  */
 class Ad7124Chip {
+
   public:
-    Ad7124Chip ();
-    ~Ad7124Chip();
-    int init (int slave_select);
+    int begin (int slave_select);
     int reset();
 
     int status();
     int setAdcControl (Ad7124::OperatingMode mode, Ad7124::PowerMode power_mode, bool ref_en = true, Ad7124::ClkSel clk_sel = Ad7124::InternalClk);
     int setMode (Ad7124::OperatingMode mode);
-    
+
     int setChannel (uint8_t ch, uint8_t cfg, Ad7124::InputSel ainp, Ad7124::InputSel ainm, bool enable = false);
     int enableChannel (uint8_t ch, bool enable = true);
     int channelConfig (uint8_t ch);
@@ -190,7 +188,7 @@ class Ad7124Chip {
 
   private:
     Ad7124Private d;
-    Ad7124Register reg[Ad7124::AD7124_REG_NO];
+    Ad7124Register reg[Ad7124::Reg_No];
 };
 
 /* ========================================================================== */

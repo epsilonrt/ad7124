@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="ad7124" InternalType="">
+<CodeLite_Project Name="voltmeter" InternalType="">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
@@ -26,25 +26,6 @@
  }]]]>
     </Plugin>
   </Plugins>
-  <VirtualDirectory Name="src">
-    <VirtualDirectory Name="include">
-      <File Name="src/include/ad7124-defs.h"/>
-      <File Name="src/include/ad7124-driver.h"/>
-      <File Name="src/include/ad7124-private.h"/>
-    </VirtualDirectory>
-    <File Name="src/ad7124-driver.cpp"/>
-    <File Name="src/ad7124-private.cpp"/>
-    <File Name="src/ad7124.cpp"/>
-    <File Name="src/ad7124.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="examples">
-    <VirtualDirectory Name="ad7124-full-test">
-      <File Name="examples/ad7124-full-test/ad7124-full-test.ino"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="ad7124-voltmeter">
-      <File Name="examples/ad7124-voltmeter/ad7124-voltmeter.ino"/>
-    </VirtualDirectory>
-  </VirtualDirectory>
   <Description/>
   <Dependencies/>
   <Settings Type="Executable">
@@ -144,14 +125,10 @@
       </Completion>
     </Configuration>
   </Settings>
+  <VirtualDirectory Name="voltmeter">
+    <File Name="Makefile"/>
+    <File Name="voltmeter.cpp"/>
+  </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
-  <VirtualDirectory Name="ad7124">
-    <File Name=".gitignore"/>
-    <File Name="LICENCE"/>
-    <File Name="LICENSE"/>
-    <File Name="keywords.txt"/>
-    <File Name="library.properties"/>
-    <File Name="README.md"/>
-  </VirtualDirectory>
 </CodeLite_Project>

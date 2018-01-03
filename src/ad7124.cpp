@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 epsilonRT. All rights reserved.
+ * Copyright © 2017-2018 epsilonRT. All rights reserved.
  *
  * This software is governed by the CeCILL license under French law and
  * abiding by the rules of distribution of free software.  You can  use,
@@ -25,18 +25,8 @@ using namespace Ad7124;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-Ad7124Chip::Ad7124Chip () {
-
-}
-
-// -----------------------------------------------------------------------------
-Ad7124Chip::~Ad7124Chip() {
-
-}
-
-// -----------------------------------------------------------------------------
 int
-Ad7124Chip::init (int slave_select) {
+Ad7124Chip::begin (int slave_select) {
   int ret;
 
   Ad7124Register::fillAllRegsWithDefault (reg);
@@ -59,7 +49,7 @@ Ad7124Chip::reset() {
 int
 Ad7124Chip::status() {
 
-  return getRegister (AD7124_Status);
+  return getRegister (Status);
 }
 
 // -----------------------------------------------------------------------------
@@ -82,7 +72,7 @@ Ad7124Chip::setChannel (uint8_t ch, uint8_t cfg, InputSel ainp,
   if ( (ch < 16) && (cfg < 8)) {
     Ad7124Register * r;
 
-    ch += AD7124_Channel_0;
+    ch += Channel_0;
     r = &reg[ch];
 
     r->value = AD7124_CH_MAP_REG_SETUP (cfg) |
@@ -103,7 +93,7 @@ Ad7124Chip::enableChannel (uint8_t ch, bool enable) {
     Ad7124Register * r;
     int ret;
 
-    ch += AD7124_Channel_0;
+    ch += Channel_0;
     r = &reg[ch];
 
     ret = readRegister ( (RegisterId) ch);
@@ -134,7 +124,7 @@ Ad7124Chip::channelConfig (uint8_t ch) {
     Ad7124Register * r;
     uint8_t cfg;
 
-    ch += AD7124_Channel_0;
+    ch += Channel_0;
     r = &reg[ch];
 
     cfg = (r->value >> 12) & 0x07;
@@ -151,7 +141,7 @@ Ad7124Chip::setConfig (uint8_t cfg, RefSel ref, PgaSel pga,
   if (cfg < 8) {
     Ad7124Register * r;
 
-    cfg += AD7124_Config_0;
+    cfg += Config_0;
     r = &reg[cfg];
 
     r->value =    AD7124_CFG_REG_REF_SEL (ref) |
@@ -172,7 +162,7 @@ Ad7124Chip::setConfigFilter (uint8_t cfg, FilterType filter, PostFilterType post
   if (cfg < 8) {
     Ad7124Register * r;
 
-    cfg += AD7124_Filter_0;
+    cfg += Filter_0;
     r = &reg[cfg];
 
     r->value = AD7124_FILT_REG_FILTER ( (uint32_t) filter) |
@@ -191,7 +181,7 @@ Ad7124Chip::setConfigOffset (uint8_t cfg, uint32_t value) {
 
   if (cfg < 8) {
 
-    cfg += AD7124_Offset_0;
+    cfg += Offset_0;
     return setRegister ( (RegisterId) cfg, value);
   }
   return -1;
@@ -203,7 +193,7 @@ Ad7124Chip::setConfigGain (uint8_t cfg, uint32_t value) {
 
   if (cfg < 8) {
 
-    cfg += AD7124_Gain_0;
+    cfg += Gain_0;
     return setRegister ( (RegisterId) cfg, value);
   }
   return -1;
@@ -216,14 +206,14 @@ Ad7124Chip::setAdcControl (OperatingMode mode,
                            bool ref_en, ClkSel clk_sel) {
   Ad7124Register * r;
 
-  r = &reg[AD7124_ADC_Control];
+  r = &reg[ADC_Control];
   r->value = AD7124_ADC_CTRL_REG_MODE (mode) |
              AD7124_ADC_CTRL_REG_POWER_MODE (power_mode) |
              AD7124_ADC_CTRL_REG_CLK_SEL (clk_sel) |
              (ref_en ? AD7124_ADC_CTRL_REG_REF_EN : 0) |
              AD7124_ADC_CTRL_REG_DOUT_RDY_DEL;
 
-  return writeRegister (AD7124_ADC_Control);
+  return writeRegister (ADC_Control);
 }
 
 // -----------------------------------------------------------------------------
@@ -231,10 +221,10 @@ int
 Ad7124Chip::setMode (OperatingMode mode) {
   Ad7124Register * r;
 
-  r = &reg[AD7124_ADC_Control];
+  r = &reg[ADC_Control];
   r->value &= ~AD7124_ADC_CTRL_REG_MODE (0x0F); // clear mode
   r->value |= AD7124_ADC_CTRL_REG_MODE (mode);
-  return writeRegister (AD7124_ADC_Control);
+  return writeRegister (ADC_Control);
 }
 
 // -----------------------------------------------------------------------------
@@ -354,7 +344,7 @@ Ad7124Chip::internalCalibration (uint8_t ch) {
 long
 Ad7124Chip::getRegister (RegisterId id) {
 
-  if ( (id >= AD7124_Status) && (id < AD7124_REG_NO))  {
+  if ( (id >= Status) && (id < Reg_No))  {
     int ret;
 
     ret = readRegister (id);
@@ -371,7 +361,7 @@ Ad7124Chip::getRegister (RegisterId id) {
 int
 Ad7124Chip::setRegister (RegisterId id, long value) {
 
-  if ( (id >= AD7124_Status) && (id < AD7124_REG_NO))  {
+  if ( (id >= Status) && (id < Reg_No))  {
 
     reg[id].value = value;
     return writeRegister (id);

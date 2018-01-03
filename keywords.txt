@@ -1,18 +1,50 @@
 #######################################
-# Syntax Coloring Map For ExampleLibrary
+# Syntax Coloring Map For AD7124 Library
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
 
-Test	KEYWORD1
+Ad7124	KEYWORD1
+Ad7124Chip	KEYWORD1
+Ad7124Register	KEYWORD1
+OperatingMode	KEYWORD1
+PowerMode	KEYWORD1
+ClkSel	KEYWORD1
+IoutCurrent	KEYWORD1
+IoutCh	KEYWORD1
+InputSel	KEYWORD1
+PgaSel	KEYWORD1
+RefSel	KEYWORD1
+BurnoutCurrent	KEYWORD1
+FilterType	KEYWORD1
+PostFilterType	KEYWORD1
+RegisterId	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-doSomething	KEYWORD2
+begin 	KEYWORD2
+reset	KEYWORD2
+status	KEYWORD2
+setAdcControl 	KEYWORD2
+setMode 	KEYWORD2
+setChannel 	KEYWORD2
+enableChannel 	KEYWORD2
+channelConfig 	KEYWORD2
+setConfig	KEYWORD2
+setConfigFilter	KEYWORD2
+setConfigOffset	KEYWORD2
+setConfigGain	KEYWORD2
+read	KEYWORD2
+startSingleConversion	KEYWORD2
+waitEndOfConversion	KEYWORD2
+getData	KEYWORD2
+currentChannel	KEYWORD2
+internalCalibration	KEYWORD2
+toVoltage	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -21,3 +53,140 @@ doSomething	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+ContinuousMode	LITERAL1
+SingleConvMode	LITERAL1
+StandbyMode	LITERAL1
+PowerDownMode	LITERAL1
+IdleMode	LITERAL1
+InternalOffsetCalibrationMode	LITERAL1
+InternalGainCalibrationMode	LITERAL1
+SystemOffsetCalibrationMode	LITERAL1
+SystemGainCalibrationMode
+LowPower	LITERAL1
+MidPower	LITERAL1
+FullPower	LITERAL1
+InternalClk	LITERAL1
+InternalWithOutputClk	LITERAL1
+ExternalClk	LITERAL1
+ExternalDiv4Clk	LITERAL1
+CurrentOff	LITERAL1
+Current50uA	LITERAL1
+Current100uA	LITERAL1
+Current250uA	LITERAL1
+Current500uA	LITERAL1
+Current750uA	LITERAL1
+Current1000uA	LITERAL1
+IoutCh0	LITERAL1
+IoutCh1	LITERAL1
+IoutCh2	LITERAL1
+IoutCh3	LITERAL1
+IoutCh4	LITERAL1
+IoutCh5	LITERAL1
+IoutCh6	LITERAL1
+IoutCh7	LITERAL1
+AIN0Input	LITERAL1
+AIN1Input	LITERAL1
+AIN2Input	LITERAL1
+AIN3Input	LITERAL1
+AIN4Input	LITERAL1
+AIN5Input	LITERAL1
+AIN6Input	LITERAL1
+AIN7Input	LITERAL1
+TEMPInput	LITERAL1
+AVSSInput	LITERAL1
+REFInput	LITERAL1
+DGNDInput	LITERAL1
+AVDD6PInput	LITERAL1
+AVDD6MInput	LITERAL1
+IOVDD6PInput	LITERAL1
+IOVDD6MInput	LITERAL1
+ALDO6PInput	LITERAL1
+ALDO6MInput	LITERAL1
+DLDO6PInput	LITERAL1
+DLDO6MInput	LITERAL1
+V20mVPInput	LITERAL1
+V20mVMInput	LITERAL1
+Pga1	LITERAL1
+Pga2	LITERAL1
+Pga4	LITERAL1
+Pga8	LITERAL1
+Pga16	LITERAL1
+Pga32	LITERAL1
+Pga64	LITERAL1
+Pga128	LITERAL1
+RefIn1	LITERAL1
+RefIn2	LITERAL1
+RefInternal	LITERAL1
+RefAVdd	LITERAL1
+BurnoutOff	LITERAL1
+Burnout500nA	LITERAL1
+Burnout2uA	LITERAL1
+Burnout4uA	LITERAL1
+Sinc4Filter	LITERAL1
+Sinc3Filter	LITERAL1
+Sinc4FastFilter	LITERAL1
+Sinc3FastFilter	LITERAL1
+PostFilter	LITERAL1
+dB47PostFilter	LITERAL1
+dB62PostFilter	LITERAL1
+dB86PostFilter	LITERAL1
+dB92PostFilter	LITERAL1
+Status	LITERAL1
+ADC_Control	LITERAL1
+Data	LITERAL1
+IOCon1	LITERAL1
+IOCon2_	LITERAL1
+ID	LITERAL1
+Error	LITERAL1
+Error_En	LITERAL1
+Mclk_Count	LITERAL1
+Channel_0	LITERAL1
+Channel_1	LITERAL1
+Channel_2	LITERAL1
+Channel_3	LITERAL1
+Channel_4	LITERAL1
+Channel_5	LITERAL1
+Channel_6	LITERAL1
+Channel_7	LITERAL1
+Channel_8	LITERAL1
+Channel_9	LITERAL1
+Channel_10	LITERAL1
+Channel_11	LITERAL1
+Channel_12	LITERAL1
+Channel_13	LITERAL1
+Channel_14	LITERAL1
+Channel_15	LITERAL1
+Config_0	LITERAL1
+Config_1	LITERAL1
+Config_2	LITERAL1
+Config_3	LITERAL1
+Config_4	LITERAL1
+Config_5	LITERAL1
+Config_6	LITERAL1
+Config_7	LITERAL1
+Filter_0	LITERAL1
+Filter_1	LITERAL1
+Filter_2	LITERAL1
+Filter_3	LITERAL1
+Filter_4	LITERAL1
+Filter_5	LITERAL1
+Filter_6	LITERAL1
+Filter_7	LITERAL1
+Offset_0	LITERAL1
+Offset_1	LITERAL1
+Offset_2	LITERAL1
+Offset_3	LITERAL1
+Offset_4	LITERAL1
+Offset_5	LITERAL1
+Offset_6	LITERAL1
+Offset_7	LITERAL1
+Gain_0	LITERAL1
+Gain_1	LITERAL1
+Gain_2	LITERAL1
+Gain_3	LITERAL1
+Gain_4	LITERAL1
+Gain_5	LITERAL1
+Gain_6	LITERAL1
+Gain_7	LITERAL1
+Reg_No	LITERAL1
