@@ -18,7 +18,13 @@ All you need to do is implement an `ad7124-driver.cpp` file containing the speci
 
 AD7124 Library is an open source project under [CeCILL Free Software License Version 2.1](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 
-Its API is documented in the [doc/html](https://github.com/epsilonrt/ad7124/tree/master/doc/html/index.html) folder.
+API is documented in the [extras/doc/html](https://github.com/epsilonrt/ad7124/tree/master/extras/doc/html/classAd7124Chip.html) folder.
+
+## Installation
+
+To install the library, simply download its zip file and integrate it into your sketch according to [explanations on the Arduino site](https://www.arduino.cc/en/Guide/Libraries#toc4).
+
+## Example
 
 Here is a simple example that displays on the serial device the voltage measured between pins AIN1 (+) and AIN0 (-):
 
@@ -65,7 +71,7 @@ Here is a simple example that displays on the serial device the voltage measured
     }
 
 
-##AD7124 Details
+## AD7124 Details
 
 The AD7124-4 is a low power, low noise, completely integrated analog front end for high precision measurement applications. The device contains a low noise, 24-bit Σ-Δ analog-to-digital converter (ADC), and can be configured to have 4 differential inputs or 7 single-ended or pseudo differential inputs. The onchip low gain stage ensures that signals of small amplitude can be interfaced directly to the ADC.
 
@@ -92,5 +98,5 @@ Applications
 * Instrumentation Smart transmitters
 * Smart transmitters
 
-For more on AD7124, see http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-4.pdf
+For more on AD7124, see his [datasheet](http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-4.pdf)
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="ad7124" InternalType="" Version="10.0.0">
-  <VirtualDirectory Name="extras"/>
+<CodeLite_Project Name="doc" InternalType="">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
@@ -27,27 +26,17 @@
  }]]]>
     </Plugin>
   </Plugins>
-  <VirtualDirectory Name="src">
-    <VirtualDirectory Name="include">
-      <File Name="src/include/ad7124-defs.h"/>
-      <File Name="src/include/ad7124-driver.h"/>
-      <File Name="src/include/ad7124-private.h"/>
-    </VirtualDirectory>
-    <File Name="src/ad7124-driver.cpp"/>
-    <File Name="src/ad7124-private.cpp"/>
-    <File Name="src/ad7124.cpp"/>
-    <File Name="src/ad7124.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="examples">
-    <VirtualDirectory Name="ad7124-full-test">
-      <File Name="examples/ad7124-full-test/ad7124-full-test.ino"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="ad7124-voltmeter">
-      <File Name="examples/ad7124-voltmeter/ad7124-voltmeter.ino"/>
-    </VirtualDirectory>
-  </VirtualDirectory>
   <Description/>
   <Dependencies/>
+  <VirtualDirectory Name="doc">
+    <File Name="DoxygenLayout.xml"/>
+    <File Name="Makefile"/>
+    <File Name="Doxyfile.in"/>
+    <File Name="build_main_page.sh"/>
+    <File Name="main_page_footer.dox"/>
+    <File Name="main_page_header.dox"/>
+    <File Name="../README.md"/>
+  </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -76,15 +65,10 @@
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="yes">
-        <Target Name="Program">make program</Target>
-        <Target Name="Fuse">make fuse</Target>
-        <Target Name="Lock">make lock</Target>
         <Target Name="DistClean">make distclean</Target>
-        <Target Name="Ice">make debug-ice</Target>
-        <Target Name="Debug">make debug</Target>
         <RebuildCommand>make rebuild</RebuildCommand>
         <CleanCommand>make clean</CleanCommand>
-        <BuildCommand>make DEBUG=ON</BuildCommand>
+        <BuildCommand>make</BuildCommand>
         <PreprocessFileCommand/>
         <SingleFileCommand/>
         <MakefileGenerationCommand/>
@@ -95,7 +79,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="no" EnableCpp14="no">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
@@ -120,9 +104,6 @@
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="yes">
-        <Target Name="Program">make program</Target>
-        <Target Name="Fuse">make fuse</Target>
-        <Target Name="Lock">make lock</Target>
         <Target Name="Distclean">make distclean</Target>
         <RebuildCommand>make rebuild</RebuildCommand>
         <CleanCommand>make clean</CleanCommand>
@@ -137,7 +118,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="no" EnableCpp14="no">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
@@ -147,12 +128,4 @@
   </Settings>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
-  <VirtualDirectory Name="ad7124">
-    <File Name=".gitignore"/>
-    <File Name="LICENCE"/>
-    <File Name="LICENSE"/>
-    <File Name="keywords.txt"/>
-    <File Name="library.properties"/>
-    <File Name="README.md"/>
-  </VirtualDirectory>
 </CodeLite_Project>

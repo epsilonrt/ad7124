@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Workspace Name="ad7124" Database="">
+<CodeLite_Workspace Name="ad7124" Database="" Version="10.0.0">
   <Environment>
     <![CDATA[]]>
   </Environment>
-  <Project Name="ad7124" Path="ad7124.project" Active="Yes"/>
+  <Project Name="ad7124" Path="ad7124.project" Active="No"/>
+  <Project Name="doc" Path="extras/doc/doc.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="ad7124" ConfigName="Debug"/>
+      <Project Name="doc" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="ad7124" ConfigName="Release"/>
+      <Project Name="doc" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
