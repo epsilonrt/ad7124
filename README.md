@@ -18,11 +18,13 @@ All you need to do is implement an `ad7124-driver.cpp` file containing the speci
 
 AD7124 Library is an open source project under [CeCILL Free Software License Version 2.1](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 
+The project is hosted on [github](https://github.com/epsilonrt/ad7124).
+
 API is documented on [www.epsilonrt.fr](http://www.epsilonrt.fr/ad7124).
 
 ## Installation
 
-To install the library, simply download its zip file and integrate it into your sketch according to [explanations on the Arduino site](https://www.arduino.cc/en/Guide/Libraries#toc4).
+To install the library, simply download its [zip file](https://github.com/epsilonrt/ad7124/archive/master.zip) and integrate it into your sketch according to [explanations on the Arduino site](https://www.arduino.cc/en/Guide/Libraries#toc4).
 
 ## Example
 
