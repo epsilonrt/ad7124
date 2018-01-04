@@ -18,7 +18,7 @@ All you need to do is implement an `ad7124-driver.cpp` file containing the speci
 
 AD7124 Library is an open source project under [CeCILL Free Software License Version 2.1](http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 
-API is documented in the [extras/doc/html](https://github.com/epsilonrt/ad7124/tree/master/extras/doc/html/classAd7124Chip.html) folder.
+API is documented on [www.epsilonrt.fr](http://www.epsilonrt.fr/ad7124).
 
 ## Installation
 

@@ -28,8 +28,8 @@ main_page.dox: main_page_header.dox main_page_footer.dox $(PROJECT_TOPDIR)/READM
 	@./build_main_page.sh
 
 version.mk: 
-#	@git-version $@
-	echo "1.0.0" > version.mk
+	@git-version $@
+#	echo "1.0.0" > version.mk
 
 Doxyfile: Doxyfile.in version.mk 
 	@sed  -e "s#GIT_VERSION#$(shell cat version.mk)#g" $< > $@
