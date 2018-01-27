@@ -45,7 +45,7 @@ void setup() {
   digitalWrite (ledPin, 1); // clear the LED
 
   //Initialize serial and wait for port to open:
-  Serial.begin (500000);
+  Serial.begin (38400);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
