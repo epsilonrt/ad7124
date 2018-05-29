@@ -24,6 +24,8 @@
 #include <stdlib.h>
 #include <ad7124.h>
 
+using namespace Ad7124;
+
 // In order not to prefix the constants with Ad7124 :: !
 //using namespace Ad7124;
 
@@ -102,25 +104,25 @@ void setup() {
   Serial.println (F ("\nSetting up 4 channels with  4setup"));
   for (uint8_t i = 0; i < 4; i++) {
 
-    ret = adc.setConfig (i, Ad7124::RefInternal, Ad7124::Pga1, true);
+    ret = adc.setConfig (i, RefInternal, Pga1, true);
     assert (ret == 0);
-    printreg (Ad7124::Config_0 + i);
+    printreg (Config_0 + i);
 
-    ret = adc.setChannel (i, i, (i * 2 + 1), Ad7124::AVSSInput);
+    ret = adc.setChannel (i, i, (i * 2 + 1), AVSSInput);
     assert (ret == 0);
-    printreg (Ad7124::Channel_0 + i);
+    printreg (Channel_0 + i);
   }
 
   Serial.println (F ("\nSetting up ADC"));
-  ret = adc.setAdcControl (Ad7124::StandbyMode, Ad7124::FullPower, true);
+  ret = adc.setAdcControl (StandbyMode, FullPower, true);
   assert (ret == 0);
-  printreg (Ad7124::ADC_Control);
+  printreg (ADC_Control);
 
   Serial.println (F ("\nCalibration"));
   for (uint8_t i = 0; i < 4; i++) {
 
-    printreg (Ad7124::Offset_0 + i);
-    printreg (Ad7124::Gain_0 + i);
+    printreg (Offset_0 + i);
+    printreg (Gain_0 + i);
   }
 
   Serial.println (F ("\nV0\tV1\tV2\tV3"));

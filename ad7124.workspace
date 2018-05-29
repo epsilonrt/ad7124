@@ -3,18 +3,18 @@
   <Environment>
     <![CDATA[]]>
   </Environment>
-  <Project Name="ad7124" Path="ad7124.project" Active="No"/>
   <Project Name="doc" Path="extras/doc/doc.project" Active="Yes"/>
+  <Project Name="ad7124" Path="ad7124.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
-      <Project Name="ad7124" ConfigName="Debug"/>
       <Project Name="doc" ConfigName="Debug"/>
+      <Project Name="ad7124" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
-      <Project Name="ad7124" ConfigName="Release"/>
       <Project Name="doc" ConfigName="Release"/>
+      <Project Name="ad7124" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="ad7124" InternalType="" Version="10.0.0">
-  <VirtualDirectory Name="extras"/>
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
@@ -27,6 +26,7 @@
  }]]]>
     </Plugin>
   </Plugins>
+  <VirtualDirectory Name="extras"/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="include">
       <File Name="src/include/ad7124-defs.h"/>
@@ -44,6 +44,9 @@
     </VirtualDirectory>
     <VirtualDirectory Name="ad7124-voltmeter">
       <File Name="examples/ad7124-voltmeter/ad7124-voltmeter.ino"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="ad7124-thermometer">
+      <File Name="examples/ad7124-thermometer/ad7124-thermometer.ino"/>
     </VirtualDirectory>
   </VirtualDirectory>
   <Description/>
