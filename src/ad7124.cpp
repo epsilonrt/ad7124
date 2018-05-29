@@ -157,7 +157,7 @@ Ad7124Chip::setConfig (uint8_t cfg, RefSel ref, PgaSel pga,
 
 // -----------------------------------------------------------------------------
 int
-Ad7124Chip::setConfigFilter (uint8_t cfg, FilterType filter, PostFilterType postfilter, uint16_t fs, bool rej60, bool single) {
+Ad7124Chip::setConfigFilter (uint8_t cfg, FilterType filter, uint16_t fs, PostFilterType postfilter, bool rej60, bool single) {
 
   if (cfg < 8) {
     Ad7124Register * r;
@@ -197,6 +197,25 @@ Ad7124Chip::setConfigGain (uint8_t cfg, uint32_t value) {
     return setRegister ( (RegisterId) cfg, value);
   }
   return -1;
+}
+
+// -----------------------------------------------------------------------------
+int
+Ad7124Chip::setCurrentSource (uint8_t source, IoutCh ch, IoutCurrent current) {
+  Ad7124Register * r;
+
+  r = &reg[IOCon_1];
+  if (source == 0) {
+
+    r->value &= ~ (AD7124_IO_CTRL1_REG_IOUT0 (7) | AD7124_IO_CTRL1_REG_IOUT_CH0 (15));
+    r->value |= AD7124_IO_CTRL1_REG_IOUT0 (current) | AD7124_IO_CTRL1_REG_IOUT_CH0 (ch);
+  }
+  else {
+
+    r->value &= ~ (AD7124_IO_CTRL1_REG_IOUT1 (7) | AD7124_IO_CTRL1_REG_IOUT_CH1 (15));
+    r->value |= AD7124_IO_CTRL1_REG_IOUT1 (current) | AD7124_IO_CTRL1_REG_IOUT_CH1 (ch);
+  }
+  return writeRegister (IOCon_1);
 }
 
 // -----------------------------------------------------------------------------
@@ -324,14 +343,14 @@ Ad7124Chip::internalCalibration (uint8_t ch) {
   if (ret < 0) {
     return ret;
   }
-  
-  ret = setMode(InternalGainCalibrationMode);
+
+  ret = setMode (InternalGainCalibrationMode);
   ret = waitEndOfConversion (timeout());
   if (ret < 0) {
     return ret;
   }
-  
-  ret = setMode(InternalOffsetCalibrationMode);
+
+  ret = setMode (InternalOffsetCalibrationMode);
   ret = waitEndOfConversion (timeout());
   if (ret < 0) {
     return ret;

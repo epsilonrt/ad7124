@@ -284,7 +284,7 @@ class Ad7124Chip {
      * When the fast filters are used, this bit has no effect.
      * @return 0 for success or negative error code
      */
-    int setConfigFilter (uint8_t cfg, Ad7124::FilterType filter, Ad7124::PostFilterType postfilter, uint16_t fs, bool rej60, bool single);
+    int setConfigFilter (uint8_t cfg, Ad7124::FilterType filter, uint16_t fs, Ad7124::PostFilterType postfilter = 0, bool rej60 = false, bool single = false);
 
     /**
      * @brief Set offset for a setup
@@ -307,6 +307,23 @@ class Ad7124Chip {
      * @return 0 for success or negative error code
      */
     int setConfigGain (uint8_t cfg, uint32_t value);
+
+    /**
+     * @brief Setting up excitation current source
+     * 
+     * The AD7124-4 contains two matched, software configurable,
+     * constant current sources that can be programmed to equal 50 μA,
+     * 100 μA, 250 μA, 500 μA, 750 μA, or 1 mA. These current sources
+     * can be used to excite external resistive bridges or RTD sensors.
+     * Both current sources source currents from AVDD and can be
+     * directed to any of the analog input pins).
+     *
+     * @param source source index (0 or 1)
+     * @param ch Channel select bits for the excitation current
+     * @param current current bits choice
+     * @return 0 for success or negative error code
+     */
+    int setCurrentSource (uint8_t source, Ad7124::IoutCh ch, Ad7124::IoutCurrent current);
 
     /**
      * @brief Sampling a channel
