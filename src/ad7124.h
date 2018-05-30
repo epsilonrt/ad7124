@@ -172,6 +172,7 @@ namespace Ad7124 {
    * offers good 50 Hz and 60 Hz rejection at output data rates that have zero latency approximately.
    */
   enum PostFilterType {
+    NoPostFilter   = 0, /**< No Post Filter (Default value) */
     dB47PostFilter = 2, /**< Rejection at 50 Hz and 60 Hz ± 1 Hz: 47 dB, Output Data Rate (SPS): 27.27 Hz */
     dB62PostFilter = 3, /**< Rejection at 50 Hz and 60 Hz ± 1 Hz: 62 dB, Output Data Rate (SPS): 25 Hz */
     dB86PostFilter = 5, /**< Rejection at 50 Hz and 60 Hz ± 1 Hz: 86 dB, Output Data Rate (SPS): 20 Hz */
@@ -284,7 +285,9 @@ class Ad7124Chip {
      * When the fast filters are used, this bit has no effect.
      * @return 0 for success or negative error code
      */
-    int setConfigFilter (uint8_t cfg, Ad7124::FilterType filter, uint16_t fs, Ad7124::PostFilterType postfilter = 0, bool rej60 = false, bool single = false);
+    int setConfigFilter (uint8_t cfg, Ad7124::FilterType filter, uint16_t fs,
+                         Ad7124::PostFilterType postfilter = Ad7124::NoPostFilter,
+                         bool rej60 = false, bool single = false);
 
     /**
      * @brief Set offset for a setup
@@ -310,7 +313,7 @@ class Ad7124Chip {
 
     /**
      * @brief Setting up excitation current source
-     * 
+     *
      * The AD7124-4 contains two matched, software configurable,
      * constant current sources that can be programmed to equal 50 μA,
      * 100 μA, 250 μA, 500 μA, 750 μA, or 1 mA. These current sources
