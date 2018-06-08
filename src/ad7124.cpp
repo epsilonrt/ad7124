@@ -201,7 +201,7 @@ Ad7124Chip::setConfigGain (uint8_t cfg, uint32_t value) {
 
 // -----------------------------------------------------------------------------
 int
-Ad7124Chip::setCurrentSource (uint8_t source, IoutCh ch, IoutCurrent current) {
+Ad7124Chip::setCurrentSource (uint8_t source, uint8_t ch, IoutCurrent current) {
   Ad7124Register * r;
 
   r = &reg[IOCon_1];

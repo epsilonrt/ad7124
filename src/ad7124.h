@@ -326,7 +326,7 @@ class Ad7124Chip {
      * @param current current bits choice
      * @return 0 for success or negative error code
      */
-    int setCurrentSource (uint8_t source, Ad7124::IoutCh ch, Ad7124::IoutCurrent current);
+    int setCurrentSource (uint8_t source, uint8_t ch, Ad7124::IoutCurrent current);
 
     /**
      * @brief Sampling a channel
