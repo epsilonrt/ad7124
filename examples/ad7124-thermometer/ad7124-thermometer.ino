@@ -114,7 +114,7 @@ void loop() {
       double r, t = 0;
 
       // See Equation (1), p.4 of CN-0381
-      r = (static_cast<double> (value - Zero) * Rf) / (static_cast<double> (Zero) * Gain);
+      r = ((value - Zero) * Rf) / (Zero * Gain);
 
       // See Equation (2), p.4 of CN-0381
       t = (r - 100.0) / 0.385;
