@@ -29,13 +29,14 @@
 using namespace Ad7124;
 
 /* constants ================================================================ */
-const int ledPin = 9;
+const int ledPin = LED_BUILTIN;
 const int ssPin = 10;
 
 // Mathematical constants
 const double Gain = 16;
 const double Rf = 5.11E3;
-const unsigned long CodeMax = 1UL << 23;
+const long Zero = 1L << 23;
+const long FullScale = 1L << 24;
 
 /* public variables ========================================================= */
 Ad7124Chip adc;
@@ -57,7 +58,7 @@ void setup() {
   }
 
   // prints title with ending line break
-  Serial.println ("CN-0381 RTD Thermometer");
+  Serial.println ("RTD Thermometer");
 
   // Initializes the AD7124 device, the pin /CS is pin 10 (/SS)
   adc.begin (ssPin);
@@ -65,22 +66,12 @@ void setup() {
   // Setting the configuration 0:
   // - use of the REFIN1(+)/REFIN1(-) reference
   // - gain of 16 for a bipolar measurement
+  // - digital filter Sync4 FS=384
   adc.setConfig (0, RefIn1, Pga16, true);
+  adc.setConfigFilter (0, Sinc4Filter, 384);
 
   // Setting channel 0 with config 0 using pins AIN2(+)/AIN3(-)
   adc.setChannel (0, 0, AIN2Input, AIN3Input);
-
-  ret = adc.setCurrentSource (0, IoutCh0, Current500uA);
-  if (ret < 0) {
-
-    Serial.println ("Unable to setting up Iout0");
-  }
-
-  ret = adc.setConfigFilter (0, Sinc4Filter, 384);
-  if (ret < 0) {
-
-    Serial.println ("Unable to setting up digital filter");
-  }
 
   // Configuring ADC in Full Power Mode (Fastest)
   ret = adc.setAdcControl (StandbyMode, FullPower, true);
@@ -88,40 +79,55 @@ void setup() {
 
     Serial.println ("Unable to setting up ADC");
   }
-
-  ret = adc.internalCalibration (0);
-  if (ret < 0) {
-
-    Serial.println ("Unable to calibrate");
-  }
 }
 
 // -----------------------------------------------------------------------------
 void loop() {
   long value;
 
-  // Measuring on Channel 0 in Single Conversion Mode
-  digitalWrite (ledPin, 0);
+  // detect an open wire circuit (no RTD connected) or a short-circuit
+  adc.setConfig (0, RefInternal, Pga1, true, Burnout4uA);
   value = adc.read (0);
-  digitalWrite (ledPin, 1);
 
-  if (value >= 0) {
-    double r, t = 0;
+  if (value >= (FullScale - 10))  {
 
-    // See Equation (1), p.4 of CN-0381
-    r = (static_cast<double> (value - CodeMax) * Rf) / (static_cast<double> (CodeMax) * Gain);
-
-    // See Equation (2), p.4 of CN-0381
-    t = (r - 100.0) / 0.385;
-
-    // Print results
-    Serial.print (t, 3);
-    Serial.print (",");
-    Serial.println (r, 3);
+    // A near full-scale reading can mean that the front-end sensor is open circuit.
+    adc.setConfig (0, RefInternal, Pga1, true, BurnoutOff);
+    Serial.println ("OPENED");
   }
   else {
 
-    Serial.println ("FAIL");
+    // Setting the configuration 0 for measuring
+    adc.setConfig (0, RefIn1, Pga16, true);
+    // Program the excitation currents to 500 μA and output the currents on the AIN0
+    adc.setCurrentSource (0, IoutCh0, Current500uA);
+
+    // Measuring on Channel 0 in Single Conversion Mode
+    digitalWrite (ledPin, 0);
+    value = adc.read (0);
+    digitalWrite (ledPin, 1);
+
+    // Program the excitation currents to Off
+    adc.setCurrentSource (0, IoutCh0, CurrentOff);
+
+    if (value >= 0) {
+      double r, t = 0;
+
+      // See Equation (1), p.4 of CN-0381
+      r = (static_cast<double> (value - Zero) * Rf) / (static_cast<double> (Zero) * Gain);
+
+      // See Equation (2), p.4 of CN-0381
+      t = (r - 100.0) / 0.385;
+
+      // Print results
+      Serial.print (t, 3);
+      Serial.print (",");
+      Serial.println (r, 3);
+    }
+    else {
+
+      Serial.println ("FAIL");
+    }
   }
 }
 /* ========================================================================== */
