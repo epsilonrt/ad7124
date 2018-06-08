@@ -39,6 +39,11 @@
     <File Name="src/ad7124.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="examples">
+    <VirtualDirectory Name="ad7124-cn0381">
+      <File Name="examples/ad7124-cn0381/rtd.cpp"/>
+      <File Name="examples/ad7124-cn0381/rtd.h"/>
+      <File Name="examples/ad7124-cn0381/ad7124-cn0381.ino"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="ad7124-full-test">
       <File Name="examples/ad7124-full-test/ad7124-full-test.ino"/>
     </VirtualDirectory>
