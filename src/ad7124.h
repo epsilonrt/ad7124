@@ -329,6 +329,18 @@ class Ad7124Chip {
     int setCurrentSource (uint8_t source, uint8_t ch, Ad7124::IoutCurrent current);
 
     /**
+     * @brief Setting up bias voltage on AIN-Pins
+     *
+     * The AD7124 contains a bias voltage source. This source can be
+     * connected to each AIN-Pin of the AD7124.
+     *
+     * @param pinMask values for the IOCon_2 register (
+     *  AD7124(_8)_IO_CTRL2_REG_GPIO_VBIAS<pin>
+     * @return 0 for success or negative error code
+     */
+    int Ad7124Chip::setBiasPins (uint16_t pinMask);
+
+    /**
      * @brief Sampling a channel
      * The channel is enabled in single mode, then the conversion is started
      * and the value of the sample is returned

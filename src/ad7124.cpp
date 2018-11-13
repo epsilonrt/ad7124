@@ -220,6 +220,19 @@ Ad7124Chip::setCurrentSource (uint8_t source, uint8_t ch, IoutCurrent current) {
 
 // -----------------------------------------------------------------------------
 int
+Ad7124Chip::setBiasPins (uint16_t pinMask) {
+  Ad7124Register * r;
+
+  r = &reg[IOCon_2];
+  r->value &= 0xCC33;
+  
+  r->value |= pinMask;
+  
+  return writeRegister (IOCon_2);
+}
+
+// -----------------------------------------------------------------------------
+int
 Ad7124Chip::setAdcControl (OperatingMode mode,
                            PowerMode power_mode,
                            bool ref_en, ClkSel clk_sel) {
