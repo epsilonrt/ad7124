@@ -338,7 +338,7 @@ class Ad7124Chip {
      *  AD7124(_8)_IO_CTRL2_REG_GPIO_VBIAS<pin>
      * @return 0 for success or negative error code
      */
-    int Ad7124Chip::setBiasPins (uint16_t pinMask);
+    int setBiasPins (uint16_t pinMask);
 
     /**
      * @brief Sampling a channel
