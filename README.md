@@ -9,7 +9,7 @@ Copyright © 2017-2018 epsilonRT, All rights reserved.
   <img src="https://raw.githubusercontent.com/epsilonrt/gxPL/master/doc/images/osi.png" alt="osi.png" align="right" valign="top">
 </a>
 
-This library allows the simplified use of AD7124 analog to digital converter from Analog Device.
+This library allows the simplified use of both AD7124-4 & AD7124-8 analog to digital converters from Analog Devices.
 
 ![AD7124 schematic](http://www.analog.com/-/media/analog/en/products/image/functional-block-diagrams/ad7124-4-fbl.png?h=270&hash=C2F14B04ACFD34FCE1F45D48FAA0E1C2DB1AE5B7)
 
@@ -100,5 +100,6 @@ Applications
 * Instrumentation Smart transmitters
 * Smart transmitters
 
-For more on AD7124, see his [datasheet](http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-4.pdf)
-
+Datasheets for AD7124 devices:
+* [AD7124-4](http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-4.pdf)
+* [AD7124-8](http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-8.pdf)

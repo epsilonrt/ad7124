@@ -101,6 +101,14 @@ namespace Ad7124 {
     AIN5Input, /**< AIN5 */
     AIN6Input, /**< AIN6 */
     AIN7Input, /**< AIN7 */
+    AIN8Input, /**< AIN8 */
+    AIN9Input, /**< AIN9 */
+    AIN10Input, /**< AIN10 */
+    AIN11Input, /**< AIN11 */
+    AIN12Input, /**< AIN12 */
+    AIN13Input, /**< AIN13 */
+    AIN14Input, /**< AIN14 */
+    AIN15Input, /**< AIN15 */
     TEMPInput = 16, /**< Temperature sensor (internal) */
     AVSSInput, /**< AVss */
     REFInput, /**< Internal reference */
