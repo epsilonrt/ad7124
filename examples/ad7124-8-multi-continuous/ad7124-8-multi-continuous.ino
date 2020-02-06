@@ -5,7 +5,7 @@
  * Prints voltages measured at differential pin pairs 2&3 to 12&13, sample rate is controlled by the limitations of the filterWord.
  * 
  * For more on AD7124-8, see
- * http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-4.pdf
+ * http://www.analog.com/media/en/technical-documentation/data-sheets/AD7124-8.pdf
  * 
  * The circuit:
  * - Arduino MCU (tested on Arduino Pro Micro aka LilyPad Arduino USB)
