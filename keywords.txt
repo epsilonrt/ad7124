@@ -45,7 +45,7 @@ getData	KEYWORD2
 currentChannel	KEYWORD2
 internalCalibration	KEYWORD2
 toVoltage	KEYWORD2
-
+setPWRSW	KEYWORD2
 #######################################
 # Instances (KEYWORD2)
 #######################################

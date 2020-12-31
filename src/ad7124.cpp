@@ -220,6 +220,22 @@ Ad7124Chip::setCurrentSource (uint8_t source, uint8_t ch, IoutCurrent current) {
 
 // -----------------------------------------------------------------------------
 int
+Ad7124Chip::setPWRSW(bool enabled) {
+  Ad7124Register * r;
+
+  r = &reg[IOCon_1]; 
+
+  r->value &= ~ AD7124_IO_CTRL1_REG_PDSW;
+  
+  if (enabled == true) {
+    r->value |= AD7124_IO_CTRL1_REG_PDSW;
+  }
+ 
+  return writeRegister (IOCon_1);
+}
+
+// -----------------------------------------------------------------------------
+int
 Ad7124Chip::setBiasPins (uint16_t pinMask) {
   Ad7124Register * r;
 
