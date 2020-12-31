@@ -337,6 +337,17 @@ class Ad7124Chip {
     int setCurrentSource (uint8_t source, uint8_t ch, Ad7124::IoutCurrent current);
 
     /**
+     * @brief Set state of power switch pin
+     *
+     * The AD7124-4 contains a low side switch that can be used
+     * to control excitation power to a bridge circuit.
+     *
+     * @param enabled State to set switch to. enabled = closed
+     * @return 0 for success or negative error code
+     */
+    int setPWRSW(bool enabled) ;
+
+    /**
      * @brief Setting up bias voltage on AIN-Pins
      *
      * The AD7124 contains a bias voltage source. This source can be
