@@ -235,6 +235,10 @@ Ad7124Private::reset (void) {
     return ret;
   }
 
+  /* reset state varibles */  
+  isReady = false;
+  useCRC = AD7124_DISABLE_CRC;
+  
   /* Wait for the reset to complete */
   return waitToPowerOn (responseTimeout);
 }
