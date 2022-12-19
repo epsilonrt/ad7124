@@ -6,12 +6,12 @@
 Copyright © 2017-2018 epsilonRT, All rights reserved.
 
 <a href="http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html">
-  <img src="https://raw.githubusercontent.com/epsilonrt/gxPL/master/doc/images/osi.png" alt="osi.png" align="right" valign="top">
+  <img src="https://raw.githubusercontent.com/epsilonrt/ad7124/master/extras/doc/images/osi.png" alt="osi.png" align="right" valign="top">
 </a>
 
 This library allows the simplified use of both AD7124-4 & AD7124-8 analog to digital converters from Analog Devices.
 
-![AD7124 schematic](http://www.analog.com/-/media/analog/en/products/image/functional-block-diagrams/ad7124-4-fbl.png?h=270&hash=C2F14B04ACFD34FCE1F45D48FAA0E1C2DB1AE5B7)
+![AD7124 schematic](https://raw.githubusercontent.com/epsilonrt/ad7124/master/extras/doc/images/AD7124-4-fbl.png)
 
 Although initially intended for the Arduino platform, this library will be easily accessible on any platform with an SPI bus.
 All you need to do is implement an `ad7124-driver.cpp` file containing the specific code.
